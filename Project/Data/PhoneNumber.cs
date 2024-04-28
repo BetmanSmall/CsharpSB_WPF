@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using CsharpSB_WPF.Project.Utils;
+using Newtonsoft.Json;
 
 namespace CsharpSB_WPF.Project.Data {
     public class PhoneNumber {
@@ -32,7 +32,7 @@ namespace CsharpSB_WPF.Project.Data {
         }
 
         public override string ToString() {
-            return JsonSerializer.Serialize(this);
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

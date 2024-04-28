@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using CsharpSB_WPF.Project.Employees;
 using CsharpSB_WPF.Project.Utils;
 
@@ -7,8 +8,8 @@ namespace CsharpSB_WPF.Project {
         public static void MainLoop() {
             ClientsManager.Load();
             do {
-                Console.Out.WriteLine(string.Join(",", ClientsManager.Clients));
-                Console.Out.Write("Кто ты войн?" +
+                Debug.WriteLine(string.Join(",", ClientsManager.Clients));
+                Debug.Write("Кто ты войн?" +
                                   "\n  --- 1. Консультант!" +
                                   "\n  --- 2. Менеджер!" +
                                   "\n  --- 0. Ахиллес, сын Пелея! | Выход!" +
@@ -27,7 +28,7 @@ namespace CsharpSB_WPF.Project {
                     employee.WorkWithClients();
                 }
             } while (true);
-            Console.Out.WriteLine(string.Join(",", ClientsManager.Clients));
+            Debug.WriteLine(string.Join(",", ClientsManager.Clients));
             ClientsManager.UnLoad();
         }
     }

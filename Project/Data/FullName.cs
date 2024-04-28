@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace CsharpSB_WPF.Project.Data {
     public class FullName {
@@ -7,7 +6,6 @@ namespace CsharpSB_WPF.Project.Data {
         public string LastName { get; set; }
         public string SurName { get; set; }
 
-        [JsonConstructor]
         public FullName() {
         }
 
@@ -23,7 +21,7 @@ namespace CsharpSB_WPF.Project.Data {
 
         public string ToString(bool json) {
             if (json) {
-                return JsonSerializer.Serialize(this);
+                return JsonConvert.SerializeObject(this);
             } else {
                 return FirstName + ", " + LastName + ", " + SurName;
             }

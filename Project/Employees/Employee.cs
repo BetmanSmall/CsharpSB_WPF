@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Diagnostics;
 using CsharpSB_WPF.Project.Data;
 using CsharpSB_WPF.Project.Utils;
 
 namespace CsharpSB_WPF.Project.Employees {
     public abstract class Employee {
+        public string EmployeeName { get; set; }
         public void WorkWithClients() {
             Client selectedClient = ConsoleClientSelector.SelectClient();
             if (selectedClient == null) {
                 if (this.GetType() == typeof(Manager)) {
-                    Console.Out.WriteLine("Клиенты не найдены! Создаем нового:");
+                    Debug.WriteLine("Клиенты не найдены! Создаем нового:");
                     selectedClient = ((Manager)this).CreateNewClient();
                 } else {
-                    Console.Out.WriteLine("Нет доступных клиентов для редактирования!");
+                    Debug.WriteLine("Нет доступных клиентов для редактирования!");
                     return;
                 }
             }

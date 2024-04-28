@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using CsharpSB_WPF.Project.Data;
 
@@ -22,10 +23,10 @@ namespace CsharpSB_WPF.Project.Utils {
                 for (int i = clientsPageIndexMin; i < clientsPageIndexMax; i++) {
                     stringBuilder.Append($"  --- {i + 1} - " + ClientsManager.Clients[i].FullName + "\n");
                 }
-                Console.Out.WriteLine($"\n Pages:({pageIndex + 1}/{pagesCount + 1})");
-                Console.Out.WriteLine(stringBuilder.ToString());
-                Console.Out.WriteLine("Менять страницы: -1 = Назад, 0 = Вперед.");
-                Console.Out.WriteLine("Выбери клиента:");
+                Debug.WriteLine($"\n Pages:({pageIndex + 1}/{pagesCount + 1})");
+                Debug.WriteLine(stringBuilder.ToString());
+                Debug.WriteLine("Менять страницы: -1 = Назад, 0 = Вперед.");
+                Debug.WriteLine("Выбери клиента:");
                 string enterValueString = (Console.ReadLine() ?? "0");
                 if (enterValueString == String.Empty) enterValueString = "0";
                 int enterValue = int.Parse(enterValueString);

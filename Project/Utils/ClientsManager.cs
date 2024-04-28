@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Text.Json;
 using System.Threading.Tasks;
 using CsharpSB_WPF.Project.Data;
+using Newtonsoft.Json;
 
 namespace CsharpSB_WPF.Project.Utils {
     public static class ClientsManager {
@@ -11,29 +11,31 @@ namespace CsharpSB_WPF.Project.Utils {
 
         public static List<Client> Clients = new List<Client>();
 
+        static ClientsManager() {
+            Load();
+        }
+
         public static void Load() {
-            var task = DeserializeFromFile(JsonFileName);
-            task.Wait();
+            DeserializeFromFile(JsonFileName);
         }
 
         public static void UnLoad() {
-            var task = SerializeToFile(JsonFileName);
-            task.Wait();
+            SerializeToFile(JsonFileName);
         }
 
-        private static async Task SerializeToFile(string fileName) {
+        private static void SerializeToFile(string fileName) {
             using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate)) {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                await JsonSerializer.SerializeAsync(fs, Clients, options);
-                Console.WriteLine("Data has been saved to file");
+                JsonConvert.SerializeObject(Clients);
+                Debug.WriteLine("Data has been saved to file");
             }
         }
 
-        private static async Task DeserializeFromFile(string fileName) {
+        private static void DeserializeFromFile(string fileName) {
             if (!File.Exists(fileName)) return;
-            using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate)) {
-                Clients = (await JsonSerializer.DeserializeAsync<List<Client>>(fs));
-                Console.WriteLine($"Clients loaded:" + Clients);
+            using (StreamReader file = File.OpenText(fileName)) {
+                JsonSerializer serializer = new JsonSerializer();
+                Clients = (List<Client>)serializer.Deserialize(file, typeof(List<Client>));
+                Debug.WriteLine($"Clients loaded:" + Clients);
             }
         }
     }

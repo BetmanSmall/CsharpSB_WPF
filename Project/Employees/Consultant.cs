@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using CsharpSB_WPF.Project.Data;
 using CsharpSB_WPF.Project.Utils;
 
 namespace CsharpSB_WPF.Project.Employees {
     public class Consultant : Employee {
+        public Consultant() {
+            EmployeeName = this.GetType().Name;
+        }
+
         public override void WorkWithClient(Client client) {
             do {
-                Console.Out.WriteLine("Client: " + ClientToString(client));
-                Console.Out.WriteLine("Консультант что ты хочешь сделать с этим клиентом?" +
+                Debug.WriteLine("Client: " + ClientToString(client));
+                Debug.WriteLine("Консультант что ты хочешь сделать с этим клиентом?" +
                                       "   --- 1. Просмотреть серию и номер паспорта" +
                                       "   --- 2. Просмотреть ФИО (JSON)" +
                                       "   --- 3. Изменить Номер телефона" +
@@ -19,9 +24,9 @@ namespace CsharpSB_WPF.Project.Employees {
                 int enterValue = int.Parse(enterValueString);
                 if (enterValue == 0) break;
                 if (enterValue == 1) {
-                    Console.Out.WriteLine(GetClientSerialNumber(client));
+                    Debug.WriteLine(GetClientSerialNumber(client));
                 } else if (enterValue == 2) {
-                    Console.Out.WriteLine(GetClientFullName(client));
+                    Debug.WriteLine(GetClientFullName(client));
                 } else if (enterValue == 3) {
                     ChangeClientPhoneNumber(client);
                 }
@@ -46,14 +51,14 @@ namespace CsharpSB_WPF.Project.Employees {
         public void ChangeClientPhoneNumber(Client client) {
             do {
                 try {
-                    Console.Out.Write("Введите номер телефона: ");
+                    Debug.Write("Введите номер телефона: ");
                     string phoneNumberStr = Console.ReadLine() ?? string.Empty;
                     PhoneNumber newPhoneNumber = new PhoneNumber(phoneNumberStr);
                     SetClientPhoneNumber(client, newPhoneNumber);
                     break;
                 } catch (Exception e) {
-                    Console.Error.WriteLine(e);
-                    Console.Out.Write("Плохой номер ты ввел! Давай еще раз!");
+                    Debug.WriteLine(e);
+                    Debug.Write("Плохой номер ты ввел! Давай еще раз!");
                 }
             } while (true);
         }
@@ -61,7 +66,7 @@ namespace CsharpSB_WPF.Project.Employees {
         public void SetClientPhoneNumber(Client client, PhoneNumber phoneNumber) {
             PhoneNumber oldValue = client.PhoneNumber;
             client.PhoneNumber = phoneNumber;
-            Console.Out.WriteLine("Успешно! Новый номер:" + GetClientPhoneNumber(client));
+            Debug.WriteLine("Успешно! Новый номер:" + GetClientPhoneNumber(client));
             ChangeClientData(client, ClientChangeData.WhichDataChange.PhoneNumber, oldValue.ToString(), client.PhoneNumber.ToString());
         }
 
